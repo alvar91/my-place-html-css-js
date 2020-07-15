@@ -9,8 +9,26 @@ class PlaceFinder {
     this.shareBtn = document.getElementById("share-btn");
 
     locateUserBtn.addEventListener("click", this.locateUserHandler.bind(this));
-    // this.shareBtn.addEventListener('click');
+    this.shareBtn.addEventListener("click", this.sharePlaceHandler);
     addressForm.addEventListener("submit", this.findAddressHandler.bind(this));
+  }
+
+  sharePlaceHandler() {
+    const sharedLinkInputElement = document.getElementById("share-link");
+    if (!navigator.clipboard) {
+      sharedLinkInputElement.select();
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(sharedLinkInputElement.value)
+      .then(() => {
+        alert("Copied into clipboard!");
+      })
+      .catch((err) => {
+        console.log(err);
+        sharedLinkInputElement.select();
+      });
   }
 
   selectPlace(coordinates, address) {
